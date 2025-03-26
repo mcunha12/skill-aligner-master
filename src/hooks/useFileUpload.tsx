@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 export const useFileUpload = () => {
   const [file, setFile] = useState<File | null>(null);
   const [fileContent, setFileContent] = useState<string | null>(null);
+  const [linkedInUrl, setLinkedInUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleFileUpload = (uploadedFile: File) => {
@@ -30,6 +31,10 @@ export const useFileUpload = () => {
     }, 1500);
   };
 
+  const handleLinkedInUrlChange = (url: string) => {
+    setLinkedInUrl(url.trim() ? url : null);
+  };
+
   const clearFile = () => {
     setFile(null);
     setFileContent(null);
@@ -38,8 +43,10 @@ export const useFileUpload = () => {
   return {
     file,
     fileContent,
+    linkedInUrl,
     isLoading,
     handleFileUpload,
+    handleLinkedInUrlChange,
     clearFile
   };
 };

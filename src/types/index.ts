@@ -11,6 +11,7 @@ export interface InitialDirections {
 export interface ResumeData {
   file: File | null;
   fileContent: string | null;
+  linkedInUrl: string | null;
 }
 
 export interface ResultData {

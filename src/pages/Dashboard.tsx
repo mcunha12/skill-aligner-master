@@ -12,7 +12,7 @@ import { useFileUpload } from '@/hooks/useFileUpload';
 import { JobDescription as JobDescriptionType, InitialDirections as InitialDirectionsType, ResultData } from '@/types';
 
 const Dashboard = () => {
-  const { file, fileContent, isLoading, handleFileUpload, clearFile } = useFileUpload();
+  const { file, fileContent, linkedInUrl, isLoading, handleFileUpload, handleLinkedInUrlChange, clearFile } = useFileUpload();
   
   const [initialDirections, setInitialDirections] = useState<InitialDirectionsType>({ content: '' });
   
@@ -49,8 +49,8 @@ const Dashboard = () => {
 
   const processResume = () => {
     // Validations
-    if (!file) {
-      toast.error('Por favor, faça upload do seu currículo.');
+    if (!file && !linkedInUrl) {
+      toast.error('Por favor, faça upload do seu currículo ou forneça o URL do LinkedIn.');
       return;
     }
 
@@ -66,6 +66,11 @@ const Dashboard = () => {
     }
 
     setIsProcessing(true);
+    
+    if (linkedInUrl) {
+      toast.info('Extraindo informações do LinkedIn...');
+    }
+    
     toast.info('Processando seu currículo...');
 
     // Simulate API call to GPT
@@ -73,8 +78,8 @@ const Dashboard = () => {
       const newResults = jobDescriptions.map(job => ({
         id: uuidv4(),
         jobDescription: job.content,
-        portugueseResume: `Currículo otimizado em Português para a vaga:\n\n${job.content.substring(0, 50)}...\n\nNome: João Silva\nE-mail: joao@example.com\n\nExperiência Profissional:\n- Desenvolvedor Senior (2018-2023)\n- Analista de Sistemas (2014-2018)`,
-        englishResume: `Optimized Resume in English for the job:\n\n${job.content.substring(0, 50)}...\n\nName: João Silva\nEmail: joao@example.com\n\nProfessional Experience:\n- Senior Developer (2018-2023)\n- Systems Analyst (2014-2018)`,
+        portugueseResume: `Currículo otimizado em Português para a vaga:\n\n${job.content.substring(0, 50)}...\n\nNome: João Silva\nE-mail: joao@example.com\n\nExperiência Profissional:\n- Desenvolvedor Senior (2018-2023)\n- Analista de Sistemas (2014-2018)${linkedInUrl ? '\n\nDados extraídos do LinkedIn' : ''}`,
+        englishResume: `Optimized Resume in English for the job:\n\n${job.content.substring(0, 50)}...\n\nName: João Silva\nEmail: joao@example.com\n\nProfessional Experience:\n- Senior Developer (2018-2023)\n- Systems Analyst (2014-2018)${linkedInUrl ? '\n\nData extracted from LinkedIn' : ''}`,
         portugueseCoverLetter: `Carta de Apresentação em Português:\n\nPrezado Recrutador,\n\nEstou entusiasmado em candidatar-me à vaga de [Cargo]. Com [X] anos de experiência em...\n\nAtenciosamente,\nJoão Silva`,
         englishCoverLetter: `Cover Letter in English:\n\nDear Recruiter,\n\nI am excited to apply for the [Position] role. With [X] years of experience in...\n\nSincerely,\nJoão Silva`,
         skillGap: ['React Native', 'AWS', 'TypeScript', 'GraphQL'],
@@ -99,10 +104,11 @@ const Dashboard = () => {
               <h2 className="text-xl font-semibold mb-4">Informações</h2>
               
               <FileUpload 
-                resumeData={{ file, fileContent }}
+                resumeData={{ file, fileContent, linkedInUrl }}
                 isLoading={isLoading}
                 onFileUpload={handleFileUpload}
                 onClearFile={clearFile}
+                onLinkedInUrlChange={handleLinkedInUrlChange}
               />
               
               <InitialDirections 
@@ -149,8 +155,8 @@ const Dashboard = () => {
               <h2 className="text-xl font-semibold mb-4">Instruções</h2>
               <div className="space-y-4 text-sm">
                 <div>
-                  <h3 className="font-medium">1. Faça upload do seu currículo</h3>
-                  <p className="text-gray-500">Formatos aceitos: PDF (máx. 5MB)</p>
+                  <h3 className="font-medium">1. Forneça seu currículo</h3>
+                  <p className="text-gray-500">Insira o link do LinkedIn ou faça upload do PDF (máx. 5MB)</p>
                 </div>
                 <div>
                   <h3 className="font-medium">2. Forneça direcionamentos</h3>

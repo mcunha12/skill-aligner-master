@@ -1,8 +1,9 @@
 
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { FileText, Upload, X } from 'lucide-react';
+import { FileText, Upload, X, Linkedin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { ResumeData } from '@/types';
 
 interface FileUploadProps {
@@ -10,13 +11,15 @@ interface FileUploadProps {
   isLoading: boolean;
   onFileUpload: (file: File) => void;
   onClearFile: () => void;
+  onLinkedInUrlChange: (url: string) => void;
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({ 
   resumeData, 
   isLoading, 
   onFileUpload, 
-  onClearFile 
+  onClearFile,
+  onLinkedInUrlChange
 }) => {
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
@@ -33,9 +36,30 @@ const FileUpload: React.FC<FileUploadProps> = ({
     disabled: isLoading || !!resumeData.file
   });
 
+  const handleLinkedInUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onLinkedInUrlChange(e.target.value);
+  };
+
   return (
     <div className="rounded-lg subtle-border p-5 mt-4">
       <h3 className="text-lg font-medium mb-2">Currículo</h3>
+      
+      <div className="mb-4">
+        <div className="flex items-center gap-2 mb-2">
+          <Linkedin className="h-4 w-4 text-[#0077b5]" />
+          <span className="text-sm font-medium">LinkedIn URL (opcional)</span>
+        </div>
+        <Input
+          type="url"
+          placeholder="https://www.linkedin.com/in/seu-perfil"
+          value={resumeData.linkedInUrl || ''}
+          onChange={handleLinkedInUrlChange}
+          className="w-full"
+        />
+        <p className="text-xs text-gray-500 mt-1">
+          Forneça o link para seu perfil no LinkedIn para melhorar a análise do seu currículo
+        </p>
+      </div>
       
       {!resumeData.file ? (
         <div 
