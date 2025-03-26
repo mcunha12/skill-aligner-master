@@ -1,8 +1,17 @@
+
 #root {
-  max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
+  overflow-x: hidden;
+}
+
+body {
+  -webkit-tap-highlight-color: transparent;
+  min-height: 100vh;
+  height: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 .logo {
@@ -39,4 +48,28 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/* Mobile specific styles */
+.mobile-container {
+  padding: 1rem;
+  width: 100%;
+  max-width: 100%;
+}
+
+.mobile-safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 1rem);
+}
+
+.mobile-safe-area-top {
+  padding-top: env(safe-area-inset-top, 1rem);
+}
+
+.mobile-full-width {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }

@@ -27,12 +27,22 @@ export const useFileUpload = () => {
     setTimeout(() => {
       setFileContent(`Conteúdo simulado do PDF do currículo para ${uploadedFile.name}`);
       setIsLoading(false);
-      toast.success('Currículo carregado com sucesso!');
+      toast.success('Currículo carregado com sucesso!', {
+        duration: 2000,
+        position: 'bottom-center',
+      });
     }, 1500);
   };
 
   const handleLinkedInUrlChange = (url: string) => {
     setLinkedInUrl(url.trim() ? url : null);
+    
+    if (url.trim() && url.includes('linkedin.com')) {
+      toast.success('URL do LinkedIn válida', {
+        duration: 2000,
+        position: 'bottom-center',
+      });
+    }
   };
 
   const clearFile = () => {

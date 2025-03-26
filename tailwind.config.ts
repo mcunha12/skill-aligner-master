@@ -13,7 +13,7 @@ export default {
 	theme: {
 		container: {
 			center: true,
-			padding: '2rem',
+			padding: '1rem',
 			screens: {
 				'2xl': '1400px'
 			}
@@ -32,6 +32,14 @@ export default {
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
 					foreground: 'hsl(var(--secondary-foreground))'
+				},
+				tertiary: {
+					DEFAULT: '#334756',
+					foreground: '#ffffff'
+				},
+				quaternary: {
+					DEFAULT: '#F0A500',
+					foreground: '#000000'
 				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',

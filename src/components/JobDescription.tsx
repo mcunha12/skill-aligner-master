@@ -25,7 +25,7 @@ const JobDescription: React.FC<JobDescriptionProps> = ({
   };
 
   return (
-    <div className="rounded-lg subtle-border p-5 mt-4 animate-fade-in">
+    <div className="mobile-card mt-4 animate-fade-in">
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-medium">Vaga {index + 1}</h3>
         {isRemovable && removeJobDescription && (
@@ -39,14 +39,14 @@ const JobDescription: React.FC<JobDescriptionProps> = ({
           </Button>
         )}
       </div>
-      <p className="text-sm text-gray-500 mb-4">
+      <p className="text-sm text-gray-500 mb-3">
         Cole a descrição completa da vaga ou informações do perfil do LinkedIn.
       </p>
       <Textarea
         placeholder="Insira a descrição da vaga aqui..."
         value={jobDescription.content}
         onChange={handleChange}
-        className="min-h-[120px] resize-y"
+        className="min-h-[100px] resize-y rounded-lg"
       />
     </div>
   );

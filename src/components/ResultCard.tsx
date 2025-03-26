@@ -7,6 +7,7 @@ import { Copy } from 'lucide-react';
 import { toast } from 'sonner';
 import SkillGapAnalysis from './SkillGapAnalysis';
 import { ResultData } from '@/types';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ResultCardProps {
   result: ResultData;
@@ -16,6 +17,7 @@ interface ResultCardProps {
 const ResultCard: React.FC<ResultCardProps> = ({ result, index }) => {
   const [language, setLanguage] = useState<'pt' | 'en'>('pt');
   const [contentType, setContentType] = useState<'resume' | 'coverLetter'>('resume');
+  const isMobile = useIsMobile();
 
   const copyToClipboard = (text: string, type: string) => {
     navigator.clipboard.writeText(text);
@@ -31,26 +33,26 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, index }) => {
   };
 
   return (
-    <Card className="animate-scale-in card-shadow">
-      <CardHeader>
-        <CardTitle>Resultado para Vaga {index + 1}</CardTitle>
-        <CardDescription className="line-clamp-2">
+    <Card className="animate-scale-in card-shadow w-full border-quaternary/20">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-lg">Resultado para Vaga {index + 1}</CardTitle>
+        <CardDescription className="line-clamp-2 text-sm">
           {result.jobDescription}
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-0">
         <Tabs defaultValue="resume" onValueChange={(v) => setContentType(v as 'resume' | 'coverLetter')}>
-          <div className="flex justify-between items-center mb-4">
-            <TabsList>
-              <TabsTrigger value="resume">Currículo</TabsTrigger>
-              <TabsTrigger value="coverLetter">Carta de Apresentação</TabsTrigger>
+          <div className={`flex ${isMobile ? 'flex-col gap-2' : 'justify-between items-center'} mb-3`}>
+            <TabsList className="mb-1">
+              <TabsTrigger value="resume" className="text-sm">Currículo</TabsTrigger>
+              <TabsTrigger value="coverLetter" className="text-sm">Carta</TabsTrigger>
             </TabsList>
             
             <div className="flex items-center">
               <Button 
                 variant="outline" 
                 size="sm" 
-                className={`text-xs ${language === 'pt' ? 'bg-primary text-primary-foreground' : 'bg-transparent'}`}
+                className={`text-xs ${language === 'pt' ? 'bg-quaternary text-quaternary-foreground' : 'bg-transparent'}`}
                 onClick={() => setLanguage('pt')}
               >
                 PT
@@ -58,7 +60,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, index }) => {
               <Button 
                 variant="outline" 
                 size="sm"
-                className={`text-xs ${language === 'en' ? 'bg-primary text-primary-foreground' : 'bg-transparent'}`}
+                className={`text-xs ${language === 'en' ? 'bg-quaternary text-quaternary-foreground' : 'bg-transparent'}`}
                 onClick={() => setLanguage('en')}
               >
                 EN
@@ -72,12 +74,12 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, index }) => {
                 variant="ghost" 
                 size="icon" 
                 onClick={() => copyToClipboard(getActiveContent(), 'Currículo')}
-                className="h-8 w-8"
+                className="h-7 w-7"
               >
-                <Copy className="h-4 w-4" />
+                <Copy className="h-3.5 w-3.5" />
               </Button>
             </div>
-            <div className="whitespace-pre-line bg-gray-50 p-4 rounded-lg mt-2 text-sm max-h-[300px] overflow-y-auto">
+            <div className="whitespace-pre-line bg-gray-50 p-3 rounded-lg mt-2 text-sm max-h-[250px] overflow-y-auto text-left">
               {getActiveContent()}
             </div>
           </TabsContent>
@@ -88,12 +90,12 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, index }) => {
                 variant="ghost" 
                 size="icon" 
                 onClick={() => copyToClipboard(getActiveContent(), 'Carta')}
-                className="h-8 w-8"
+                className="h-7 w-7"
               >
-                <Copy className="h-4 w-4" />
+                <Copy className="h-3.5 w-3.5" />
               </Button>
             </div>
-            <div className="whitespace-pre-line bg-gray-50 p-4 rounded-lg mt-2 text-sm max-h-[300px] overflow-y-auto">
+            <div className="whitespace-pre-line bg-gray-50 p-3 rounded-lg mt-2 text-sm max-h-[250px] overflow-y-auto text-left">
               {getActiveContent()}
             </div>
           </TabsContent>
